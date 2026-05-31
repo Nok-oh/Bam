@@ -63,13 +63,25 @@
         box-shadow: 0 0 20px #ff4d6d;
     }
 
-    /* FIXED: changed absolute → fixed */
     #noBtn {
         background: #444;
         color: white;
         position: fixed;
         left: 60%;
         top: 55%;
+    }
+
+    /* NEW: refresh button style */
+    #refreshBtn {
+        background: #00c6ff;
+        color: white;
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        font-size: 16px;
+        padding: 10px 15px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.2);
     }
 
     #message {
@@ -104,6 +116,9 @@
 
     <p id="message"></p>
 </div>
+
+<!-- NEW: refresh button -->
+<button id="refreshBtn" onclick="location.reload()">🔄 Refresh</button>
 
 <script>
 const noBtn = document.getElementById("noBtn");
