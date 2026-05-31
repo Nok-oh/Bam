@@ -9,54 +9,86 @@
     body {
         margin: 0;
         height: 100vh;
+        overflow: hidden;
         display: flex;
         justify-content: center;
         align-items: center;
-        background: #ffe6e6;
         font-family: Arial, sans-serif;
-        overflow: hidden;
+        background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fbc2eb);
+        animation: bgMove 8s infinite alternate;
+    }
+
+    @keyframes bgMove {
+        0% {filter: hue-rotate(0deg);}
+        100% {filter: hue-rotate(30deg);}
     }
 
     .container {
         text-align: center;
+        padding: 30px;
+        border-radius: 20px;
+        background: rgba(255,255,255,0.3);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 0 25px rgba(0,0,0,0.2);
     }
 
     h1 {
-        color: #ff3366;
-        font-size: 40px;
-        margin-bottom: 10px;
+        color: #ff1f6d;
+        font-size: 38px;
+        text-shadow: 0 0 10px white;
     }
 
     h2 {
-        color: #444;
-        margin-bottom: 30px;
+        color: #333;
     }
 
     button {
         padding: 12px 25px;
         font-size: 20px;
         border: none;
-        border-radius: 12px;
+        border-radius: 15px;
         cursor: pointer;
         margin: 10px;
         transition: 0.3s;
     }
 
     #yesBtn {
-        background-color: #ff4d6d;
+        background: linear-gradient(45deg, #ff4d6d, #ff85a1);
         color: white;
+        box-shadow: 0 0 10px #ff4d6d;
     }
 
+    #yesBtn:hover {
+        transform: scale(1.2);
+        box-shadow: 0 0 20px #ff4d6d;
+    }
+
+    /* FIXED: changed absolute → fixed */
     #noBtn {
-        background-color: #666;
+        background: #444;
         color: white;
+        position: fixed;
+        left: 60%;
+        top: 55%;
     }
 
     #message {
-        margin-top: 25px;
+        margin-top: 20px;
         font-size: 28px;
+        color: #ff1f6d;
         font-weight: bold;
-        color: #ff3366;
+    }
+
+    .heart {
+        position: absolute;
+        color: red;
+        font-size: 20px;
+        animation: fall 4s linear infinite;
+    }
+
+    @keyframes fall {
+        0% {transform: translateY(-10vh); opacity: 1;}
+        100% {transform: translateY(110vh); opacity: 0;}
     }
 </style>
 </head>
@@ -74,30 +106,41 @@
 </div>
 
 <script>
-    const noBtn = document.getElementById("noBtn");
-    const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
 
-    let yesSize = 20;
+function moveNoButton() {
+    const padding = 100;
 
-    noBtn.addEventListener("mouseover", () => {
-        const maxX = window.innerWidth - noBtn.offsetWidth;
-        const maxY = window.innerHeight - noBtn.offsetHeight;
+    const x = Math.random() * (window.innerWidth - padding);
+    const y = Math.random() * (window.innerHeight - padding);
 
-        const randomX = Math.floor(Math.random() * maxX);
-        const randomY = Math.floor(Math.random() * maxY);
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+}
 
-        noBtn.style.position = "absolute";
-        noBtn.style.left = randomX + "px";
-        noBtn.style.top = randomY + "px";
+noBtn.addEventListener("mouseover", moveNoButton);
+noBtn.addEventListener("touchstart", moveNoButton);
 
-        yesSize += 5;
-        yesBtn.style.fontSize = yesSize + "px";
-    });
+function showLove() {
+    document.getElementById("message").innerHTML =
+        "🥰 Yay! Thank you Baby ❤️ I knew it!";
+}
 
-    function showLove() {
-        document.getElementById("message").innerHTML =
-            "🥰 Yay! Thank you Baby! ❤️";
-    }
+// floating hearts
+setInterval(() => {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "❤️";
+
+    heart.style.left = Math.random() * window.innerWidth + "px";
+    heart.style.fontSize = (10 + Math.random() * 20) + "px";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 4000);
+}, 300);
 </script>
 
 </body>
